@@ -492,7 +492,25 @@ IMPORTANT INSTRUCTIONS:
 
   const getProgress = useCallback(() => {
     const total = items.length;
-    const picked = items.filter(item => item.picked).length;
+    const picked = items.filter(item => {
+      const quantity = parseInt(item.quantity) || 1;
+      const units = parseInt(item.units) || 1;
+      const parts = parseInt(item.parts) || 1;
+      const totalParts = Math.floor((quantity / units) * parts);
+      
+      // For single-part items, use the picked status
+      if (totalParts <= 1) {
+        return item.picked;
+      }
+      
+      // For multi-part items, check if all parts are selected
+      if (item.selectedParts && item.selectedParts.length > 0) {
+        const selectedCount = item.selectedParts.filter(part => part).length;
+        return selectedCount === totalParts;
+      }
+      
+      return item.picked;
+    }).length;
     const percentage = total > 0 ? Math.round((picked / total) * 100) : 0;
     
     return { total, picked, percentage };
