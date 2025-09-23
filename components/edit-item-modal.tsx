@@ -115,8 +115,8 @@ export function EditItemModal({
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View style={[styles.header, { backgroundColor: currentTheme.surface, borderBottomColor: currentTheme.border }]}>
-          <TouchableOpacity style={[styles.closeButton, { backgroundColor: '#fff7ed', borderColor: '#f97316', borderWidth: 1 }]} onPress={onClose}>
-            <ArrowLeft size={24} color="#f97316" />
+          <TouchableOpacity style={[styles.closeButton, { backgroundColor: currentTheme.surface, borderColor: currentTheme.primary, borderWidth: 1 }]} onPress={onClose}>
+            <ArrowLeft size={24} color={currentTheme.primary} />
           </TouchableOpacity>
           <Text style={[styles.title, { color: currentTheme.text }]}>Edit Item</Text>
           <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
@@ -364,7 +364,6 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 4,
     borderWidth: 2,
-    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },

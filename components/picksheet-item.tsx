@@ -236,7 +236,7 @@ export function PicksheetItem({ item, index, onToggle, onLongPress, onPress }: P
                   </View>
                 )}
                 {item.notes && item.notes.trim() && (
-                  <View style={[styles.warningContainer, { backgroundColor: '#dc2626' }]}>
+                  <View style={[styles.warningContainer, { backgroundColor: currentTheme.danger }]}>
                     <Text style={styles.warningText}>Notes</Text>
                   </View>
                 )}
@@ -342,7 +342,6 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   numberContainer: {
-    backgroundColor: '#f97316',
     borderRadius: 20,
     width: 40,
     height: 40,
@@ -351,7 +350,7 @@ const styles = StyleSheet.create({
     flexShrink: 0,
   },
   pickedNumberContainer: {
-    backgroundColor: '#f97316',
+    // Background color handled by theme
   },
   number: {
     color: 'white',
@@ -371,7 +370,6 @@ const styles = StyleSheet.create({
   locationText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#1e293b',
   },
   locationHighlight: {
     fontWeight: 'bold',
@@ -384,7 +382,6 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontSize: 15,
-    color: '#374151',
     fontWeight: '500',
     lineHeight: 20,
   },
@@ -394,24 +391,20 @@ const styles = StyleSheet.create({
   },
   quantityText: {
     fontSize: 13,
-    color: '#64748b',
     fontWeight: '500',
   },
   partsText: {
     fontSize: 13,
-    color: '#64748b',
     fontWeight: '500',
   },
   partsTextAligned: {
     fontSize: 13,
-    color: '#64748b',
     fontWeight: '500',
     flex: 1,
     textAlign: 'right',
   },
   pickedText: {
     textDecorationLine: 'line-through',
-    color: '#9ca3af',
     opacity: 0.8,
   },
   statusContainer: {
@@ -427,12 +420,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pickedIndicator: {
-    backgroundColor: '#f97316',
+    // Background color handled by theme
   },
   unpickedIndicator: {
-    backgroundColor: '#f1f5f9',
     borderWidth: 1,
-    borderColor: '#cbd5e1',
+    // Background and border colors handled by theme
   },
   statusText: {
     fontSize: 11,
@@ -440,10 +432,10 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   pickedStatusText: {
-    color: 'white',
+    // Color handled by theme
   },
   unpickedStatusText: {
-    color: '#64748b',
+    // Color handled by theme
   },
   checkIcon: {
     padding: 2,

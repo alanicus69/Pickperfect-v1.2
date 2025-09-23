@@ -602,7 +602,7 @@ export default function HomeScreen() {
                         style={[
                           styles.picksheetColourCircle, 
                           { 
-                            backgroundColor: savedPicksheets.find(p => p.id === currentPicksheetId)?.colour || '#ffffff',
+                            backgroundColor: savedPicksheets.find(p => p.id === currentPicksheetId)?.colour || currentTheme.background,
                             borderColor: currentTheme.border,
                             borderWidth: 2
                           }
@@ -622,7 +622,7 @@ export default function HomeScreen() {
                     styles.progressFill, 
                     { 
                       width: `${progress.percentage}%` as any, 
-                      backgroundColor: isAllPicked ? '#22c55e' : currentTheme.primary 
+                      backgroundColor: isAllPicked ? currentTheme.success : currentTheme.primary 
                     }
                   ]} 
                 />
@@ -796,7 +796,7 @@ export default function HomeScreen() {
       <ColourPickerModal
         visible={colourPickerModalVisible}
         onClose={() => setColourPickerModalVisible(false)}
-        currentColour={currentPicksheetId ? (savedPicksheets.find(p => p.id === currentPicksheetId)?.colour || '#ffffff') : '#ffffff'}
+        currentColour={currentPicksheetId ? (savedPicksheets.find(p => p.id === currentPicksheetId)?.colour || currentTheme.background) : currentTheme.background}
         onSelectColour={(colour) => {
           if (currentPicksheetId) {
             updatePicksheetColour(currentPicksheetId, colour);
@@ -876,7 +876,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
   },
   picksheetContainer: {
     borderWidth: 4,
@@ -983,12 +982,10 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   listHeader: {
-    backgroundColor: 'white',
     paddingHorizontal: 24,
     paddingTop: 8,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
   },
   appHeader: {
     alignItems: 'center',
@@ -1017,9 +1014,7 @@ const styles = StyleSheet.create({
   backButton: {
     padding: 8,
     borderRadius: 8,
-    backgroundColor: '#fff7ed',
     borderWidth: 1,
-    borderColor: '#f97316',
   },
   dividerLine: {
     height: 1,
@@ -1063,7 +1058,6 @@ const styles = StyleSheet.create({
     height: 32,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
   },
   picksheetColourCircle: {
     width: 35,
@@ -1073,21 +1067,17 @@ const styles = StyleSheet.create({
   addItemButton: {
     padding: 8,
     borderRadius: 8,
-    backgroundColor: '#fff7ed',
     borderWidth: 1,
-    borderColor: '#fed7aa',
   },
   listTitle: {
     fontSize: 24,
     fontWeight: 'bold' as const,
-    color: '#1e293b',
   },
   sheetHeaderInfo: {
     alignItems: 'flex-start',
   },
   sheetHeaderText: {
     fontSize: 12,
-    color: '#64748b',
     lineHeight: 16,
   },
 
@@ -1096,13 +1086,11 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: 8,
-    backgroundColor: '#e2e8f0',
     borderRadius: 4,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#f97316',
     borderRadius: 4,
   },
   progressTextContainer: {
@@ -1112,12 +1100,10 @@ const styles = StyleSheet.create({
   },
   progressText: {
     fontSize: 14,
-    color: '#64748b',
     fontWeight: '500' as const,
   },
   partsText: {
     fontSize: 14,
-    color: '#f97316',
     fontWeight: '600' as const,
   },
   itemsList: {
@@ -1160,7 +1146,6 @@ const styles = StyleSheet.create({
   },
   scanProgressFill: {
     height: '100%',
-    backgroundColor: '#f97316',
     borderRadius: 4,
   },
   scanProgressText: {
@@ -1175,7 +1160,6 @@ const styles = StyleSheet.create({
   },
   emptyStateText: {
     fontSize: 16,
-    color: '#64748b',
   },
 
   // Modal styles

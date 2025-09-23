@@ -35,8 +35,8 @@ export function PreferencesModal({ visible, onClose }: PreferencesModalProps) {
                 Created by Alanicus Ward 2025
               </Text>
             </View>
-            <TouchableOpacity onPress={onClose} style={[styles.closeButton, { backgroundColor: '#fff7ed', borderColor: '#f97316', borderWidth: 1 }]}>
-              <ArrowLeft size={24} color="#f97316" />
+            <TouchableOpacity onPress={onClose} style={[styles.closeButton, { backgroundColor: currentTheme.surface, borderColor: currentTheme.primary, borderWidth: 1 }]}>
+              <ArrowLeft size={24} color={currentTheme.primary} />
             </TouchableOpacity>
           </View>
 
