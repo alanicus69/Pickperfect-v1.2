@@ -29,15 +29,16 @@ export function PreferencesModal({ visible, onClose }: PreferencesModalProps) {
       <SafeAreaView style={[styles.container, { backgroundColor: 'rgba(0,0,0,0.5)' }]}>
         <View style={[styles.modal, { backgroundColor: currentTheme.background }]}>
           <View style={[styles.header, { borderBottomColor: currentTheme.border }]}>
+            <TouchableOpacity onPress={onClose} style={[styles.backButton, { backgroundColor: currentTheme.surface, borderColor: currentTheme.primary, borderWidth: 1 }]}>
+              <ArrowLeft size={24} color={currentTheme.primary} />
+            </TouchableOpacity>
             <View style={styles.headerContent}>
               <Text style={[styles.title, { color: currentTheme.text }]}>PickPerfect</Text>
               <Text style={[styles.subtitle, { color: currentTheme.textSecondary }]}>
                 Created by Alanicus Ward 2025
               </Text>
             </View>
-            <TouchableOpacity onPress={onClose} style={[styles.closeButton, { backgroundColor: currentTheme.surface, borderColor: currentTheme.primary, borderWidth: 1 }]}>
-              <ArrowLeft size={24} color={currentTheme.primary} />
-            </TouchableOpacity>
+            <View style={styles.spacer} />
           </View>
 
           <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
@@ -103,11 +104,14 @@ const styles = StyleSheet.create({
     padding: 20,
     borderBottomWidth: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'flex-start',
   },
   headerContent: {
     flex: 1,
+    alignItems: 'center',
+  },
+  spacer: {
+    width: 40,
   },
   title: {
     fontSize: 24,
@@ -117,9 +121,14 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 14,
   },
-  closeButton: {
+  backButton: {
     padding: 8,
     borderRadius: 8,
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 16,
   },
   content: {
     padding: 20,
