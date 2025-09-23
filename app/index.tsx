@@ -534,7 +534,7 @@ export default function HomeScreen() {
           <View style={[styles.listHeader, { backgroundColor: currentTheme.background, borderBottomColor: currentTheme.border }]}>
             <View style={styles.headerTop}>
               <TouchableOpacity
-                style={[styles.backButton, { backgroundColor: currentTheme.surface, borderColor: currentTheme.border }]}
+                style={[styles.backButton, { backgroundColor: currentTheme.surface, borderColor: currentTheme.primary }]}
                 onPress={handleBackToHome}
               >
                 <ArrowLeft size={20} color={currentTheme.primary} />
@@ -1019,7 +1019,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#fff7ed',
     borderWidth: 1,
-    borderColor: '#fed7aa',
+    borderColor: '#f97316',
   },
   dividerLine: {
     height: 1,

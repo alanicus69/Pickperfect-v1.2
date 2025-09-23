@@ -77,8 +77,8 @@ export function SavedPicksheetDetailModal({
     >
       <SafeAreaView style={[styles.container, { backgroundColor: currentTheme.background }]}>
         <View style={[styles.header, { backgroundColor: currentTheme.surface, borderBottomColor: currentTheme.border }]}>
-          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <ArrowLeft size={24} color={currentTheme.textSecondary} />
+          <TouchableOpacity style={[styles.closeButton, { backgroundColor: '#fff7ed', borderColor: '#f97316', borderWidth: 1 }]} onPress={onClose}>
+            <ArrowLeft size={24} color="#f97316" />
           </TouchableOpacity>
           <Text style={[styles.title, { color: currentTheme.text }]}>Picksheet Details</Text>
           <View style={styles.placeholder} />
@@ -249,6 +249,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     padding: 8,
+    borderRadius: 8,
   },
   title: {
     fontSize: 18,
