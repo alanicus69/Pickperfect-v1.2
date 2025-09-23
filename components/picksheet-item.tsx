@@ -231,7 +231,7 @@ export function PicksheetItem({ item, index, onToggle, onLongPress, onPress }: P
             {(item.special || (item.notes && item.notes.trim())) && (
               <View style={styles.warningsRow}>
                 {item.special && (
-                  <View style={[styles.warningContainer, { backgroundColor: '#eab308' }]}>
+                  <View style={[styles.warningContainer, { backgroundColor: currentTheme.secondary }]}>
                     <Text style={styles.warningText}>Special Item</Text>
                   </View>
                 )}

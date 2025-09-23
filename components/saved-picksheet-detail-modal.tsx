@@ -77,8 +77,8 @@ export function SavedPicksheetDetailModal({
     >
       <SafeAreaView style={[styles.container, { backgroundColor: currentTheme.background }]}>
         <View style={[styles.header, { backgroundColor: currentTheme.surface, borderBottomColor: currentTheme.border }]}>
-          <TouchableOpacity style={[styles.closeButton, { backgroundColor: '#fff7ed', borderColor: '#f97316', borderWidth: 1 }]} onPress={onClose}>
-            <ArrowLeft size={24} color="#f97316" />
+          <TouchableOpacity style={[styles.closeButton, { backgroundColor: currentTheme.surface, borderColor: currentTheme.primary, borderWidth: 1 }]} onPress={onClose}>
+            <ArrowLeft size={24} color={currentTheme.primary} />
           </TouchableOpacity>
           <Text style={[styles.title, { color: currentTheme.text }]}>Picksheet Details</Text>
           <View style={styles.placeholder} />
@@ -91,7 +91,7 @@ export function SavedPicksheetDetailModal({
                 <FileText size={24} color={currentTheme.primary} />
                 <Text style={[styles.picksheetName, { color: currentTheme.text }]}>{currentPicksheet.name}</Text>
                 {isCompleted && (
-                  <View style={[styles.completedBadge, { backgroundColor: '#10b981' }]}>
+                  <View style={[styles.completedBadge, { backgroundColor: currentTheme.success }]}>
                     <Text style={styles.completedBadgeText}>Complete</Text>
                   </View>
                 )}
@@ -125,7 +125,7 @@ export function SavedPicksheetDetailModal({
                     styles.progressFill,
                     { 
                       width: `${progress.percentage}%` as any, 
-                      backgroundColor: isCompleted ? '#10b981' : currentTheme.primary 
+                      backgroundColor: isCompleted ? currentTheme.success : currentTheme.primary 
                     }
                   ]} 
                 />
@@ -175,12 +175,12 @@ export function SavedPicksheetDetailModal({
               </View>
               
               <View style={[styles.statBox, { backgroundColor: currentTheme.background, borderColor: currentTheme.border }]}>
-                <Text style={[styles.statValue, { color: '#10b981' }]}>{progress.picked}</Text>
+                <Text style={[styles.statValue, { color: currentTheme.success }]}>{progress.picked}</Text>
                 <Text style={[styles.statLabel, { color: currentTheme.textSecondary }]}>Picked</Text>
               </View>
               
               <View style={[styles.statBox, { backgroundColor: currentTheme.background, borderColor: currentTheme.border }]}>
-                <Text style={[styles.statValue, { color: '#ef4444' }]}>{progress.total - progress.picked}</Text>
+                <Text style={[styles.statValue, { color: currentTheme.danger }]}>{progress.total - progress.picked}</Text>
                 <Text style={[styles.statLabel, { color: currentTheme.textSecondary }]}>Remaining</Text>
               </View>
             </View>
@@ -192,8 +192,8 @@ export function SavedPicksheetDetailModal({
             </View>
             
             {currentPicksheet.items.filter(item => item.special).length > 0 && (
-              <View style={[styles.specialItemsNote, { backgroundColor: '#eab308' + '20', borderColor: '#eab308' }]}>
-                <Text style={[styles.specialItemsText, { color: '#eab308' }]}>
+              <View style={[styles.specialItemsNote, { backgroundColor: currentTheme.secondary + '20', borderColor: currentTheme.secondary }]}>
+                <Text style={[styles.specialItemsText, { color: currentTheme.secondary }]}>
                   {currentPicksheet.items.filter(item => item.special).length} special item(s) in this picksheet
                 </Text>
               </View>

@@ -316,7 +316,7 @@ export function ItemDetailModal({
                 style={[
                   styles.specialButton, 
                   { 
-                    backgroundColor: '#eab308',
+                    backgroundColor: currentTheme.secondary,
                     borderColor: '#eab308'
                   }
                 ]} 
@@ -693,7 +693,6 @@ const styles = StyleSheet.create({
   detailGridCard: {
     flex: 1,
     minWidth: 80,
-    backgroundColor: '#f8fafc',
     padding: 8,
     borderRadius: 8,
     alignItems: 'center',
@@ -706,7 +705,6 @@ const styles = StyleSheet.create({
   detailCardValue: {
     fontSize: 16,
     fontWeight: '600' as const,
-    color: '#000000',
   },
   notesSection: {
     padding: 12,
@@ -844,7 +842,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 1,
-    backgroundColor: '#f8fafc',
   },
   numberListText: {
     fontSize: 18,
@@ -860,7 +857,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     alignItems: 'center',
-    backgroundColor: '#f8fafc',
   },
   numberModalCancelText: {
     fontSize: 16,
@@ -915,7 +911,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     alignItems: 'center',
-    backgroundColor: '#f8fafc',
   },
   alertCancelText: {
     fontSize: 16,
