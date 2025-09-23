@@ -451,15 +451,29 @@ IMPORTANT INSTRUCTIONS:
             return { ...item, picked: !item.picked, selectedParts: undefined };
           }
           
-          // For multi-part items, initialize selectedParts if needed
+          // For multi-part items, use existing selectedParts if available
           const currentSelectedParts = item.selectedParts || new Array(totalParts).fill(false);
           
+          // Check if all parts are currently selected
+          const allPartsSelected = currentSelectedParts.length === totalParts && currentSelectedParts.every(part => part);
+          
           // If all parts are picked, unpick all
-          if (currentSelectedParts.every(part => part)) {
+          if (allPartsSelected) {
             return { 
               ...item, 
               picked: false, 
               selectedParts: new Array(totalParts).fill(false) 
+            };
+          }
+          
+          // If item has selectedParts array with some selections, check if we should mark as picked
+          if (item.selectedParts && item.selectedParts.length === totalParts) {
+            const selectedCount = item.selectedParts.filter(part => part).length;
+            const shouldBePicked = selectedCount === totalParts;
+            return {
+              ...item,
+              picked: shouldBePicked,
+              selectedParts: item.selectedParts
             };
           }
           
@@ -504,14 +518,22 @@ IMPORTANT INSTRUCTIONS:
       }
       
       // For multi-part items, check if all parts are selected
-      if (item.selectedParts && item.selectedParts.length > 0) {
+      if (item.selectedParts && item.selectedParts.length === totalParts) {
         const selectedCount = item.selectedParts.filter(part => part).length;
         return selectedCount === totalParts;
       }
       
+      // Fallback to picked status if selectedParts is not properly set
       return item.picked;
     }).length;
     const percentage = total > 0 ? Math.round((picked / total) * 100) : 0;
+    
+    console.log('Progress calculation:', { total, picked, percentage, items: items.map(item => ({ 
+      description: item.description, 
+      picked: item.picked, 
+      selectedParts: item.selectedParts,
+      totalParts: Math.floor((parseInt(item.quantity) || 1) / (parseInt(item.units) || 1) * (parseInt(item.parts) || 1))
+    })) });
     
     return { total, picked, percentage };
   }, [items]);
