@@ -174,14 +174,7 @@ export function ItemDetailModal({
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View style={[styles.header, { backgroundColor: currentTheme.background, borderBottomColor: currentTheme.border }]}>
-          <View style={styles.appHeader}>
-            <Package size={24} color={currentTheme.primary} />
-            <Text style={[styles.appTitle, { color: currentTheme.text }]}>PickPerfect V1.2</Text>
-            <Text style={[styles.appSubtitle, { color: currentTheme.textSecondary }]}>Warehouse Picksheet Scanner</Text>
-            <Text style={[styles.appCopyright, { color: currentTheme.textSecondary }]}>(c)Alanicus 2025</Text>
-          </View>
-          
-          <View style={styles.headerTop}>
+          <View style={styles.topSection}>
             <TouchableOpacity style={[styles.backButton, { backgroundColor: currentTheme.surface, borderColor: currentTheme.primary, borderWidth: 1 }]} onPress={onClose}>
               <ArrowLeft size={24} color={currentTheme.primary} />
             </TouchableOpacity>
@@ -189,6 +182,13 @@ export function ItemDetailModal({
               <Text style={[styles.title, { color: currentTheme.text }]}>Item Details</Text>
             </View>
             <View style={styles.placeholder} />
+          </View>
+          
+          <View style={styles.appHeader}>
+            <Package size={24} color={currentTheme.primary} />
+            <Text style={[styles.appTitle, { color: currentTheme.text }]}>PickPerfect V1.2</Text>
+            <Text style={[styles.appSubtitle, { color: currentTheme.textSecondary }]}>Warehouse Picksheet Scanner</Text>
+            <Text style={[styles.appCopyright, { color: currentTheme.textSecondary }]}>(c)Alanicus 2025</Text>
           </View>
           
           <View style={styles.itemInfoSection}>
@@ -583,10 +583,11 @@ const styles = StyleSheet.create({
     fontSize: 8,
     marginTop: 1,
   },
-  headerTop: {
+  topSection: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom: 8,
   },
   backButton: {
     padding: 8,
