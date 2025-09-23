@@ -11,7 +11,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import { Package, ArrowLeft, CheckCircle2, Circle, Plus } from 'lucide-react-native';
+import { Package, ArrowLeft, CheckCircle2, Circle } from 'lucide-react-native';
 import { PicksheetItemData } from '@/providers/picksheet-provider';
 import { useTheme } from '@/providers/theme-provider';
 
@@ -175,8 +175,8 @@ export function ItemDetailModal({
       >
         <View style={[styles.header, { backgroundColor: currentTheme.background, borderBottomColor: currentTheme.border }]}>
           <View style={styles.topSection}>
-            <TouchableOpacity style={[styles.backButton, { backgroundColor: currentTheme.primary }]} onPress={onClose}>
-              <ArrowLeft size={24} color="white" />
+            <TouchableOpacity style={[styles.backButton, { backgroundColor: currentTheme.surface, borderColor: currentTheme.primary }]} onPress={onClose}>
+              <ArrowLeft size={24} color={currentTheme.primary} />
             </TouchableOpacity>
             
             <View style={styles.centerSection}>
@@ -186,9 +186,7 @@ export function ItemDetailModal({
               <Text style={[styles.appCopyright, { color: currentTheme.textSecondary }]}>(c)Alanicus 2025</Text>
             </View>
             
-            <TouchableOpacity style={[styles.plusButton, { backgroundColor: currentTheme.primary }]}>
-              <Plus size={24} color="white" />
-            </TouchableOpacity>
+            <View style={styles.spacer} />
           </View>
           
           <View style={[styles.dividerLine, { backgroundColor: currentTheme.border }]} />
@@ -587,10 +585,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   backButton: {
-    padding: 12,
-    borderRadius: 12,
-    width: 48,
-    height: 48,
+    padding: 8,
+    borderRadius: 8,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -598,13 +595,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  plusButton: {
-    padding: 12,
-    borderRadius: 12,
-    width: 48,
-    height: 48,
-    alignItems: 'center',
-    justifyContent: 'center',
+  spacer: {
+    width: 32,
+    height: 32,
   },
   dividerLine: {
     height: 2,
