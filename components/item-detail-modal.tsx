@@ -580,28 +580,28 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: 60,
     paddingHorizontal: 20,
-    paddingBottom: 12,
+    paddingBottom: 8,
     borderBottomWidth: 4,
   },
 
   appTitle: {
     fontSize: 16,
     fontWeight: 'bold' as const,
-    marginTop: 4,
+    marginTop: 2,
   },
   appSubtitle: {
     fontSize: 10,
-    marginTop: 2,
+    marginTop: 1,
   },
   appCopyright: {
     fontSize: 8,
-    marginTop: 1,
+    marginTop: 0,
   },
   topSection: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 8,
   },
   backButton: {
     padding: 8,
@@ -621,20 +621,20 @@ const styles = StyleSheet.create({
   dividerLine: {
     height: 2,
     marginHorizontal: -20,
-    marginBottom: 16,
+    marginBottom: 8,
   },
   itemInfoSection: {
     alignItems: 'center',
-    gap: 8,
+    gap: 4,
   },
   title: {
     fontSize: 18,
     fontWeight: '600' as const,
-    marginBottom: 8,
+    marginBottom: 4,
   },
   itemNumberContainer: {
     alignItems: 'center',
-    marginVertical: 4,
+    marginVertical: 2,
   },
   itemNumberCircle: {
     width: 32,
