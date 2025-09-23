@@ -300,8 +300,22 @@ export function ItemDetailModal({
             )}
             
             <View style={[styles.totalPartsSection, { backgroundColor: currentTheme.primary + '10', borderColor: currentTheme.primary }]}>
-              <Text style={[styles.totalPartsLabel, { color: currentTheme.textSecondary }]}>Total Number of Parts</Text>
-              <Text style={[styles.totalPartsValue, { color: currentTheme.primary }]}>{totalParts}</Text>
+              {totalParts > 1 ? (
+                <>
+                  <Text style={[styles.totalPartsLabel, { color: currentTheme.textSecondary }]}>Parts Progress</Text>
+                  <View style={styles.partsProgressContainer}>
+                    <Text style={[styles.totalPartsValue, { color: currentTheme.primary }]}>
+                      {(editableItem.selectedParts?.filter(part => part).length || 0)} / {totalParts}
+                    </Text>
+                    <Text style={[styles.partsProgressSubtext, { color: currentTheme.textSecondary }]}>parts picked</Text>
+                  </View>
+                </>
+              ) : (
+                <>
+                  <Text style={[styles.totalPartsLabel, { color: currentTheme.textSecondary }]}>Total Number of Parts</Text>
+                  <Text style={[styles.totalPartsValue, { color: currentTheme.primary }]}>{totalParts}</Text>
+                </>
+              )}
             </View>
           </View>
           
@@ -740,6 +754,14 @@ const styles = StyleSheet.create({
   totalPartsValue: {
     fontSize: 28,
     fontWeight: 'bold' as const,
+  },
+  partsProgressContainer: {
+    alignItems: 'center',
+    gap: 4,
+  },
+  partsProgressSubtext: {
+    fontSize: 12,
+    fontWeight: '500' as const,
   },
   footer: {
     padding: 20,
