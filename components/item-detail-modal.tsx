@@ -578,9 +578,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingTop: 60,
+    paddingTop: 20,
     paddingHorizontal: 20,
-    paddingBottom: 8,
+    paddingBottom: 6,
     borderBottomWidth: 4,
   },
 
@@ -601,7 +601,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 8,
+    marginBottom: 4,
   },
   backButton: {
     padding: 8,
@@ -621,11 +621,11 @@ const styles = StyleSheet.create({
   dividerLine: {
     height: 2,
     marginHorizontal: -20,
-    marginBottom: 8,
+    marginBottom: 4,
   },
   itemInfoSection: {
     alignItems: 'center',
-    gap: 4,
+    gap: 2,
   },
   title: {
     fontSize: 18,
@@ -670,11 +670,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   locationHighlight: {
-    padding: 10,
+    padding: 8,
     borderRadius: 8,
     borderWidth: 2,
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   locationLabel: {
     fontSize: 12,
@@ -687,8 +687,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold' as const,
   },
   detailSection: {
-    gap: 12,
-    marginBottom: 12,
+    gap: 8,
+    marginBottom: 8,
   },
   descriptionText: {
     fontSize: 16,
@@ -705,8 +705,8 @@ const styles = StyleSheet.create({
   },
   detailGrid: {
     flexDirection: 'row',
-    gap: 8,
-    marginVertical: 8,
+    gap: 6,
+    marginVertical: 6,
     flexWrap: 'wrap',
   },
   detailGridCard: {
@@ -726,10 +726,10 @@ const styles = StyleSheet.create({
     fontWeight: '600' as const,
   },
   notesSection: {
-    padding: 12,
+    padding: 10,
     borderRadius: 8,
     borderWidth: 1,
-    marginBottom: 12,
+    marginBottom: 8,
   },
   notesLabel: {
     fontSize: 12,
@@ -741,7 +741,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   totalPartsSection: {
-    padding: 12,
+    padding: 10,
     borderRadius: 8,
     borderWidth: 2,
     alignItems: 'center',
