@@ -11,7 +11,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import { Package, ArrowLeft, CheckCircle2, Circle } from 'lucide-react-native';
+import { Package, ArrowLeft, CheckCircle2, Circle, Plus } from 'lucide-react-native';
 import { PicksheetItemData } from '@/providers/picksheet-provider';
 import { useTheme } from '@/providers/theme-provider';
 
@@ -175,23 +175,26 @@ export function ItemDetailModal({
       >
         <View style={[styles.header, { backgroundColor: currentTheme.background, borderBottomColor: currentTheme.border }]}>
           <View style={styles.topSection}>
-            <TouchableOpacity style={[styles.backButton, { backgroundColor: currentTheme.surface, borderColor: currentTheme.primary, borderWidth: 1 }]} onPress={onClose}>
-              <ArrowLeft size={24} color={currentTheme.primary} />
+            <TouchableOpacity style={[styles.backButton, { backgroundColor: currentTheme.primary }]} onPress={onClose}>
+              <ArrowLeft size={24} color="white" />
             </TouchableOpacity>
-            <View style={styles.titleSection}>
-              <Text style={[styles.title, { color: currentTheme.text }]}>Item Details</Text>
+            
+            <View style={styles.centerSection}>
+              <Package size={24} color={currentTheme.primary} />
+              <Text style={[styles.appTitle, { color: currentTheme.text }]}>PickPerfect V1.2</Text>
+              <Text style={[styles.appSubtitle, { color: currentTheme.textSecondary }]}>Warehouse Picksheet Scanner</Text>
+              <Text style={[styles.appCopyright, { color: currentTheme.textSecondary }]}>(c)Alanicus 2025</Text>
             </View>
-            <View style={styles.placeholder} />
+            
+            <TouchableOpacity style={[styles.plusButton, { backgroundColor: currentTheme.primary }]}>
+              <Plus size={24} color="white" />
+            </TouchableOpacity>
           </View>
           
-          <View style={styles.appHeader}>
-            <Package size={24} color={currentTheme.primary} />
-            <Text style={[styles.appTitle, { color: currentTheme.text }]}>PickPerfect V1.2</Text>
-            <Text style={[styles.appSubtitle, { color: currentTheme.textSecondary }]}>Warehouse Picksheet Scanner</Text>
-            <Text style={[styles.appCopyright, { color: currentTheme.textSecondary }]}>(c)Alanicus 2025</Text>
-          </View>
+          <View style={[styles.dividerLine, { backgroundColor: currentTheme.border }]} />
           
           <View style={styles.itemInfoSection}>
+            <Text style={[styles.title, { color: currentTheme.text }]}>Item Details</Text>
             <View style={styles.itemNumberContainer}>
               <View style={[styles.itemNumberCircle, { backgroundColor: currentTheme.primary }]}>
                 <Text style={styles.itemNumberText}>{itemIndex + 1}</Text>
@@ -563,13 +566,7 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     borderBottomWidth: 4,
   },
-  appHeader: {
-    alignItems: 'center',
-    paddingBottom: 8,
-    marginBottom: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
-  },
+
   appTitle: {
     fontSize: 16,
     fontWeight: 'bold' as const,
@@ -587,24 +584,41 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 8,
+    marginBottom: 16,
   },
   backButton: {
-    padding: 8,
-    borderRadius: 8,
+    padding: 12,
+    borderRadius: 12,
+    width: 48,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  centerSection: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  plusButton: {
+    padding: 12,
+    borderRadius: 12,
+    width: 48,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dividerLine: {
+    height: 2,
+    marginHorizontal: -20,
+    marginBottom: 16,
   },
   itemInfoSection: {
     alignItems: 'center',
-    gap: 4,
-    marginTop: 8,
-  },
-  titleSection: {
-    alignItems: 'center',
-    gap: 4,
+    gap: 8,
   },
   title: {
     fontSize: 18,
     fontWeight: '600' as const,
+    marginBottom: 8,
   },
   itemNumberContainer: {
     alignItems: 'center',
@@ -633,9 +647,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
   },
-  placeholder: {
-    width: 40,
-  },
+
   content: {
     flex: 1,
     padding: 16,
