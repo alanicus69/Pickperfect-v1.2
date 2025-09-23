@@ -46,6 +46,7 @@ export const [PicksheetProvider, usePicksheet] = createContextHook(() => {
   const [scanProgress, setScanProgress] = useState(0);
   const [currentPicksheetImage, setCurrentPicksheetImage] = useState<string | null>(null);
   const [pendingSpecialItems, setPendingSpecialItems] = useState<PicksheetItemData[]>([]);
+  const [isFirstTimeOpening, setIsFirstTimeOpening] = useState(false);
 
   const loadSavedPicksheets = useCallback(async () => {
     try {
@@ -103,6 +104,23 @@ export const [PicksheetProvider, usePicksheet] = createContextHook(() => {
     setCurrentPicksheetName(picksheet.name);
     setCurrentPicksheetId(picksheet.id);
     setCurrentPicksheetImage(picksheet.imageUri || null);
+    
+    // Check if this is the first time opening this picksheet by looking for potential special items
+    const hasUnconfirmedSpecialItems = picksheet.items.some(item => 
+      item.description && item.description.includes('*') && !item.special
+    );
+    
+    if (hasUnconfirmedSpecialItems) {
+      const potentialItems = picksheet.items.filter(item => 
+        item.description && item.description.includes('*') && !item.special
+      ).map(item => ({ ...item, potentialSpecial: true }));
+      
+      setPendingSpecialItems(potentialItems);
+      setIsFirstTimeOpening(true);
+    } else {
+      setIsFirstTimeOpening(false);
+      setPendingSpecialItems([]);
+    }
   }, []);
 
   const startNewPicksheet = useCallback(() => {
@@ -111,6 +129,8 @@ export const [PicksheetProvider, usePicksheet] = createContextHook(() => {
     setCurrentPicksheetName('');
     setCurrentPicksheetId(null);
     setCurrentPicksheetImage(null);
+    setIsFirstTimeOpening(false);
+    setPendingSpecialItems([]);
   }, []);
 
   const scanPicksheet = useCallback(async (imageUri: string) => {
@@ -381,24 +401,20 @@ IMPORTANT INSTRUCTIONS:
         };
       });
       
-      // Detect potential special items based on asterisk in description
+      // Detect potential special items based on asterisk (*) in description
       const itemsWithSpecialDetection = processedItems.map((item: any) => {
-        // Check if description contains asterisk after any text
-        const descriptionLines = item.description.split('\n');
+        // Check if description contains asterisk anywhere in the text
+        const description = item.description || '';
         let isLikelySpecial = false;
         
-        // Check each line of the description
-        for (const line of descriptionLines) {
-          const trimmedLine = line.trim();
-          // Look for asterisk at the start of a line or after some text
-          if (trimmedLine.startsWith('*') || /\s\*/.test(trimmedLine)) {
-            isLikelySpecial = true;
-            break;
-          }
+        // Look for asterisk (*) anywhere in the description
+        // This includes at the start, middle, or end of text
+        if (description.includes('*')) {
+          isLikelySpecial = true;
+          console.log(`Potential special item detected (contains *): ${description}`);
         }
         
         if (isLikelySpecial) {
-          console.log(`Potential special item detected: ${item.description}`);
           return { ...item, potentialSpecial: true };
         }
         
@@ -407,10 +423,13 @@ IMPORTANT INSTRUCTIONS:
       
       const itemsWithPickedStatus = itemsWithSpecialDetection;
       
-      // Set pending special items for user confirmation
+      // Set pending special items for user confirmation and mark as first time opening
       const potentialSpecialItems = itemsWithPickedStatus.filter((item: any) => item.potentialSpecial);
       if (potentialSpecialItems.length > 0) {
         setPendingSpecialItems(potentialSpecialItems);
+        setIsFirstTimeOpening(true);
+      } else {
+        setIsFirstTimeOpening(false);
       }
       
       console.log('Final processed header:', headerData);
@@ -707,6 +726,7 @@ IMPORTANT INSTRUCTIONS:
   
   const clearPendingSpecialItems = useCallback(() => {
     setPendingSpecialItems([]);
+    setIsFirstTimeOpening(false);
   }, []);
 
   const togglePartPicked = useCallback((itemIndex: number, partIndex: number) => {
@@ -757,6 +777,7 @@ IMPORTANT INSTRUCTIONS:
     scanProgress,
     currentPicksheetImage,
     pendingSpecialItems,
+    isFirstTimeOpening,
     scanPicksheet,
     toggleItemPicked,
     togglePartPicked,
@@ -776,5 +797,5 @@ IMPORTANT INSTRUCTIONS:
     updatePicksheetName,
     confirmSpecialItem,
     clearPendingSpecialItems,
-  }), [items, header, currentPicksheetName, currentPicksheetId, savedPicksheets, isScanning, scanProgress, currentPicksheetImage, pendingSpecialItems, scanPicksheet, toggleItemPicked, togglePartPicked, getProgress, updateItem, deleteItem, addItem, savePicksheet, loadPicksheet, startNewPicksheet, loadSavedPicksheets, deletePicksheet, getTotalParts, updatePicksheetColour, pickAllItems, resetAllItems, updatePicksheetName, confirmSpecialItem, clearPendingSpecialItems]);
+  }), [items, header, currentPicksheetName, currentPicksheetId, savedPicksheets, isScanning, scanProgress, currentPicksheetImage, pendingSpecialItems, isFirstTimeOpening, scanPicksheet, toggleItemPicked, togglePartPicked, getProgress, updateItem, deleteItem, addItem, savePicksheet, loadPicksheet, startNewPicksheet, loadSavedPicksheets, deletePicksheet, getTotalParts, updatePicksheetColour, pickAllItems, resetAllItems, updatePicksheetName, confirmSpecialItem, clearPendingSpecialItems]);
 });

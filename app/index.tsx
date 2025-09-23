@@ -41,6 +41,7 @@ export default function HomeScreen() {
     savedPicksheets,
     currentPicksheetImage,
     pendingSpecialItems,
+    isFirstTimeOpening,
     scanPicksheet, 
     isScanning, 
     toggleItemPicked, 
@@ -254,17 +255,23 @@ export default function HomeScreen() {
   const handleSpecialItemConfirm = (itemIndex: number, isSpecial: boolean) => {
     confirmSpecialItem(itemIndex, isSpecial);
     
-    // If no more pending special items, show summary modal
+    // If no more pending special items, close modal
     if (pendingSpecialItems.length <= 1) {
       setSpecialItemModalVisible(false);
-      setSummaryModalVisible(true);
+      // Only show summary modal if we're in scanning mode (not loading existing picksheet)
+      if (selectedImage && !showPicksheet) {
+        setSummaryModalVisible(true);
+      }
     }
   };
   
   const handleSpecialItemModalClose = () => {
     setSpecialItemModalVisible(false);
     clearPendingSpecialItems();
-    setSummaryModalVisible(true);
+    // Only show summary modal if we're in scanning mode (not loading existing picksheet)
+    if (selectedImage && !showPicksheet) {
+      setSummaryModalVisible(true);
+    }
   };
 
   const startManualEntry = () => {
@@ -304,6 +311,9 @@ export default function HomeScreen() {
   const handleLoadPicksheet = (picksheet: any) => {
     loadPicksheet(picksheet);
     setShowPicksheet(true);
+    
+    // Check if there are pending special items after loading
+    // This will be handled by the useEffect below
   };
 
   const handleBackToHome = () => {
@@ -324,6 +334,13 @@ export default function HomeScreen() {
       }, 100);
     }
   }, [currentPicksheetImage]);
+  
+  // Handle special item confirmation when loading existing picksheets
+  useEffect(() => {
+    if (showPicksheet && isFirstTimeOpening && pendingSpecialItems.length > 0) {
+      setSpecialItemModalVisible(true);
+    }
+  }, [showPicksheet, isFirstTimeOpening, pendingSpecialItems.length]);
 
   const progress = getProgress();
   const totalParts = getTotalParts();
