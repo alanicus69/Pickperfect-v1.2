@@ -353,7 +353,7 @@ export function ItemDetailModal({
                 styles.pickButtonText, 
                 { color: editableItem.picked ? currentTheme.primary : 'white' }
               ]}>
-                {editableItem.picked ? 'Unpick Item' : ((parseInt(editableItem.parts) || 1) * (parseInt(editableItem.quantity) || 1) > 1 ? 'Pick Items' : 'Pick Item')}
+                {editableItem.picked ? 'Unpick Item' : ((parseInt(editableItem.parts) || 1) * (parseInt(editableItem.quantity) || 1) > 1 ? 'Pick Parts' : 'Pick Item')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -496,15 +496,20 @@ export function ItemDetailModal({
                 onPress={() => {
                   const allPartsSelected = selectedParts.every(p => p);
                   
-                  // Save the current selection to the item
-                  if (editableItem && onUpdateItem) {
+                  // If all parts are selected (Pick All Parts), mark item as picked and bypass parts logic
+                  if (allPartsSelected && editableItem && onUpdateItem) {
+                    const updatedItem = { 
+                      ...editableItem, 
+                      picked: true,
+                      selectedParts: [...selectedParts]
+                    };
+                    onUpdateItem(updatedItem);
+                  } else if (editableItem && onUpdateItem) {
+                    // Save the current selection to the item for partial picks
                     const updatedItem = { ...editableItem, selectedParts: [...selectedParts] };
                     onUpdateItem(updatedItem);
                   }
                   
-                  if (allPartsSelected) {
-                    onTogglePicked();
-                  }
                   setShowPartsSelector(false);
                 }}
                 disabled={!selectedParts.some(p => p)}

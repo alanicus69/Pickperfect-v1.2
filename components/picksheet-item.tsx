@@ -50,15 +50,17 @@ export function PicksheetItem({ item, index, onToggle, onLongPress, onPress }: P
     const parts = parseInt(item.parts) || 1;
     const totalParts = Math.floor((quantity / units) * parts);
     
+    // If item is marked as picked, show as picked regardless of parts logic
+    if (item.picked) {
+      return currentTheme.id === 'dark' ? currentTheme.secondary + '40' : currentTheme.primary + '20';
+    }
+    
     // For single-part items, use original logic
     if (totalParts <= 1) {
-      if (item.picked) {
-        return currentTheme.id === 'dark' ? currentTheme.secondary + '40' : currentTheme.primary + '20';
-      }
       return isEven ? currentTheme.background : currentTheme.surface;
     }
     
-    // For multi-part items, show partial progress
+    // For multi-part items, show partial progress only if not already marked as picked
     if (item.selectedParts && item.selectedParts.length > 0) {
       const selectedCount = item.selectedParts.filter(part => part).length;
       const progressPercentage = selectedCount / totalParts;
@@ -85,15 +87,17 @@ export function PicksheetItem({ item, index, onToggle, onLongPress, onPress }: P
     const parts = parseInt(item.parts) || 1;
     const totalParts = Math.floor((quantity / units) * parts);
     
+    // If item is marked as picked, show primary border
+    if (item.picked) {
+      return currentTheme.primary;
+    }
+    
     // For single-part items, use original logic
     if (totalParts <= 1) {
-      if (item.picked) {
-        return currentTheme.primary;
-      }
       return currentTheme.id === 'dark' ? currentTheme.border + '40' : currentTheme.border + '20';
     }
     
-    // For multi-part items, show partial progress in border
+    // For multi-part items, show partial progress in border only if not already marked as picked
     if (item.selectedParts && item.selectedParts.length > 0) {
       const selectedCount = item.selectedParts.filter(part => part).length;
       const progressPercentage = selectedCount / totalParts;
@@ -122,11 +126,16 @@ export function PicksheetItem({ item, index, onToggle, onLongPress, onPress }: P
               const parts = parseInt(item.parts) || 1;
               const totalParts = Math.floor((quantity / units) * parts);
               
+              // If item is marked as picked, show thick border
+              if (item.picked) {
+                return 2;
+              }
+              
               if (totalParts > 1 && item.selectedParts) {
                 const selectedCount = item.selectedParts.filter(part => part).length;
                 return selectedCount > 0 ? 2 : 1;
               }
-              return item.picked ? 2 : 1;
+              return 1;
             })(),
           }
         ]}
@@ -252,6 +261,23 @@ export function PicksheetItem({ item, index, onToggle, onLongPress, onPress }: P
               const parts = parseInt(item.parts) || 1;
               const totalParts = Math.floor((quantity / units) * parts);
               
+              // If item is marked as picked, show as picked regardless of parts logic
+              if (item.picked) {
+                return (
+                  <View style={[
+                    styles.statusIndicator,
+                    { backgroundColor: currentTheme.primary }
+                  ]}>
+                    <Text style={[
+                      styles.statusText,
+                      { color: 'white' }
+                    ]}>
+                      PICKED
+                    </Text>
+                  </View>
+                );
+              }
+              
               if (totalParts > 1 && item.selectedParts) {
                 const selectedCount = item.selectedParts.filter(part => part).length;
                 const progressPercentage = selectedCount / totalParts;
@@ -303,13 +329,13 @@ export function PicksheetItem({ item, index, onToggle, onLongPress, onPress }: P
                 return (
                   <View style={[
                     styles.statusIndicator,
-                    item.picked ? { backgroundColor: currentTheme.primary } : { backgroundColor: currentTheme.surface, borderWidth: 1, borderColor: currentTheme.border }
+                    { backgroundColor: currentTheme.surface, borderWidth: 1, borderColor: currentTheme.border }
                   ]}>
                     <Text style={[
                       styles.statusText,
-                      item.picked ? { color: 'white' } : { color: currentTheme.textSecondary }
+                      { color: currentTheme.textSecondary }
                     ]}>
-                      {item.picked ? 'PICKED' : 'UNPICKED'}
+                      UNPICKED
                     </Text>
                   </View>
                 );

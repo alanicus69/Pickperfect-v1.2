@@ -458,7 +458,7 @@ IMPORTANT INSTRUCTIONS:
           const allPartsSelected = currentSelectedParts.length === totalParts && currentSelectedParts.every(part => part);
           
           // If all parts are picked, unpick all
-          if (allPartsSelected) {
+          if (allPartsSelected || item.picked) {
             return { 
               ...item, 
               picked: false, 
@@ -512,19 +512,24 @@ IMPORTANT INSTRUCTIONS:
       const parts = parseInt(item.parts) || 1;
       const totalParts = Math.floor((quantity / units) * parts);
       
+      // If item is marked as picked, it's picked regardless of parts logic
+      if (item.picked) {
+        return true;
+      }
+      
       // For single-part items, use the picked status
       if (totalParts <= 1) {
         return item.picked;
       }
       
-      // For multi-part items, check if all parts are selected
+      // For multi-part items, check if all parts are selected only if not already marked as picked
       if (item.selectedParts && item.selectedParts.length === totalParts) {
         const selectedCount = item.selectedParts.filter(part => part).length;
         return selectedCount === totalParts;
       }
       
-      // Fallback to picked status if selectedParts is not properly set
-      return item.picked;
+      // Fallback to picked status
+      return false;
     }).length;
     const percentage = total > 0 ? Math.round((picked / total) * 100) : 0;
     
