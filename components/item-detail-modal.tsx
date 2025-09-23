@@ -188,7 +188,7 @@ export function ItemDetailModal({
             <View style={styles.titleSection}>
               <Text style={[styles.title, { color: currentTheme.text }]}>Item Details</Text>
               <View style={styles.itemNumberContainer}>
-                <View style={styles.itemNumberCircle}>
+                <View style={[styles.itemNumberCircle, { backgroundColor: currentTheme.primary }]}>
                   <Text style={styles.itemNumberText}>{itemIndex + 1}</Text>
                 </View>
               </View>
@@ -605,7 +605,6 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#f97316',
     alignItems: 'center',
     justifyContent: 'center',
   },
