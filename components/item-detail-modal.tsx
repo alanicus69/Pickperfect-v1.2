@@ -182,21 +182,24 @@ export function ItemDetailModal({
           </View>
           
           <View style={styles.headerTop}>
-            <TouchableOpacity style={[styles.closeButton, { backgroundColor: '#fff7ed', borderColor: '#f97316', borderWidth: 1 }]} onPress={onClose}>
-              <ArrowLeft size={24} color="#f97316" />
+            <TouchableOpacity style={[styles.backButton, { backgroundColor: currentTheme.surface, borderColor: currentTheme.primary, borderWidth: 1 }]} onPress={onClose}>
+              <ArrowLeft size={24} color={currentTheme.primary} />
             </TouchableOpacity>
             <View style={styles.titleSection}>
               <Text style={[styles.title, { color: currentTheme.text }]}>Item Details</Text>
-              <View style={styles.itemNumberContainer}>
-                <View style={[styles.itemNumberCircle, { backgroundColor: currentTheme.primary }]}>
-                  <Text style={styles.itemNumberText}>{itemIndex + 1}</Text>
-                </View>
-              </View>
-              {item?.special && (
-                <Text style={styles.specialItemText}>Special Item</Text>
-              )}
             </View>
             <View style={styles.placeholder} />
+          </View>
+          
+          <View style={styles.itemInfoSection}>
+            <View style={styles.itemNumberContainer}>
+              <View style={[styles.itemNumberCircle, { backgroundColor: currentTheme.primary }]}>
+                <Text style={styles.itemNumberText}>{itemIndex + 1}</Text>
+              </View>
+            </View>
+            {item?.special && (
+              <Text style={styles.specialItemText}>Special Item</Text>
+            )}
           </View>
         </View>
 
@@ -585,9 +588,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  closeButton: {
+  backButton: {
     padding: 8,
     borderRadius: 8,
+  },
+  itemInfoSection: {
+    alignItems: 'center',
+    gap: 4,
+    marginTop: 8,
   },
   titleSection: {
     alignItems: 'center',
