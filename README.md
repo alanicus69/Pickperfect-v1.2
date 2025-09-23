@@ -1,2 +1,2 @@
-# Pickperfect-v1.2
-Created by Rork
+# pickperfect-v1
+Created by Alanicus Ward 2025
