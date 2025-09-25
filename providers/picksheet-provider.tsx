@@ -178,7 +178,44 @@ export const [PicksheetProvider, usePicksheet] = createContextHook(() => {
       setScanProgress(40);
 
       setScanProgress(50);
-      console.log('Sending request to AI API...');
+      console.log('Sending request to Google Vision API...');
+      
+      // Use Google Cloud Vision API for more reliable OCR
+      const visionResponse = await fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyBOti4mM1EX4Q_MqS_6hSq0uV4G7JrT0HI', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          requests: [{
+            image: {
+              content: base64Image
+            },
+            features: [{
+              type: 'DOCUMENT_TEXT_DETECTION',
+              maxResults: 1
+            }]
+          }]
+        })
+      });
+      
+      if (!visionResponse.ok) {
+        console.error('Vision API error:', visionResponse.status, visionResponse.statusText);
+        throw new Error(`Vision API error: ${visionResponse.status}`);
+      }
+      
+      const visionResult = await visionResponse.json();
+      setScanProgress(65);
+      
+      const extractedText = visionResult.responses?.[0]?.fullTextAnnotation?.text || '';
+      console.log('Extracted text from Vision API:', extractedText);
+      
+      if (!extractedText.trim()) {
+        throw new Error('No text could be extracted from the image');
+      }
+      
+      // Now use AI to structure the extracted text
+      console.log('Processing extracted text with AI...');
       const aiResponse = await fetch('https://toolkit.rork.com/text/llm/', {
         method: 'POST',
         headers: {
@@ -188,7 +225,7 @@ export const [PicksheetProvider, usePicksheet] = createContextHook(() => {
           messages: [
             {
               role: 'system',
-              content: `You are an expert OCR system specialized in warehouse picksheet document analysis. Your task is to extract structured data from picksheet images with maximum accuracy.
+              content: `You are a data extraction specialist. Parse the provided OCR text from a warehouse picksheet and structure it into JSON format.
 
 IMPORTANT INSTRUCTIONS:
 1. HEADER EXTRACTION:
@@ -197,44 +234,37 @@ IMPORTANT INSTRUCTIONS:
    - Look for "Route", "Route Name", "Delivery Route" or similar
 
 2. ITEM EXTRACTION RULES:
-   - Scan the entire document systematically from top to bottom
    - Look for tabular data, rows, or structured lists
-   - Each item typically has these fields in order: Location/Bin, Item Number, Description, Code/Ref, Quantity, Order Number, Surname
+   - Each item typically has these fields: Location/Bin, Item Number, Description, Code/Ref, Quantity, Order Number, Surname
    - Item numbers are usually 10 digits
    - Order numbers are usually 5 digits
-   - Quantities should be whole numbers (remove decimals)
+   - Quantities should be whole numbers
    - Location codes are usually alphanumeric (e.g., A1B2, 01A01)
 
-3. OCR ACCURACY TIPS:
-   - Pay special attention to similar characters: 0/O, 1/I/l, 5/S, 6/G, 8/B
-   - Numbers in item codes should be digits, not letters
-   - Verify item numbers are exactly 10 digits when possible
-   - Cross-reference similar data for consistency
+3. DATA CLEANING:
+   - Fix common OCR errors in numbers: O→0, I/l→1, S→5, G→6, B→8
+   - Ensure item numbers are exactly 10 digits
+   - Ensure order numbers are exactly 5 digits
+   - Remove any non-numeric characters from quantity fields
 
 4. OUTPUT FORMAT:
    - Return ONLY valid JSON, no markdown or extra text
    - Format: {"header": {"pickNumber": "", "schedule": "", "route": ""}, "items": [{"location": "", "number": "", "description": "", "code": "", "quantity": "", "orderNumber": "", "surname": "", "special": false}, ...]}
-   - If uncertain about a field, use best guess but mark with "?" prefix
    - Include ALL visible items, even if some fields are unclear
-   - Special items are usually marked with asterisk (*) or highlighted
+   - Special items are marked with asterisk (*) in description
 
 5. VALIDATION:
-   - Ensure item numbers don't contain obvious OCR errors (like letters in number fields)
-   - Verify quantities are reasonable whole numbers
-   - Check that location codes follow expected patterns`
+   - Ensure all required fields are present
+   - Verify data consistency across items
+   - Use reasonable defaults for missing data`
             },
             {
               role: 'user',
-              content: [
-                {
-                  type: 'text',
-                  text: 'Perform high-accuracy OCR on this picksheet document. Extract the header information (Pick Number, Schedule/Date, Route) and ALL items in the table/list. Focus on accuracy - double-check numbers and codes for OCR errors. Return structured JSON with header and items array. Each item needs: location (bin code), number (10-digit item number), description (item name), code (supplier reference), quantity (whole number), orderNumber (5-digit), surname (customer), special (boolean for marked items). Be extremely careful with number recognition - avoid common OCR mistakes like 0/O, 1/I, 5/S, etc.'
-                },
-                {
-                  type: 'image',
-                  image: base64Image
-                }
-              ]
+              content: `Parse this OCR text from a picksheet document and extract structured data. Focus on accuracy and data validation:
+
+${extractedText}
+
+Return structured JSON with header (pickNumber, schedule, route) and items array. Each item needs: location, number (10-digit), description, code, quantity (whole number), orderNumber (5-digit), surname, special (boolean). Clean up any OCR errors in numbers and ensure data consistency.`
             }
           ]
         }),
